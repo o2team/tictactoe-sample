@@ -1,0 +1,19 @@
+{
+  "name": "socketio-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "socketio-server.js",
+  "scripts": {
+    "start": "NODE_ENV=production node ./index.js",
+    "dev": "PORT=8080 node ./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nedb": "^1.8.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
+    "shortid": "^2.2.12",
+    "socket.io": "^2.1.1"
+  }
+}
