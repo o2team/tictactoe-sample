@@ -149,6 +149,14 @@ class Practice extends Phaser.State {
     } else {
       go.common.alertYourTurn()
     }
+
+    // 游戏场景隐藏游戏圈按钮
+    go.gameClub.hide()
+  }
+
+  shutdown() {
+    // 离开游戏场景显示游戏圈按钮
+    go.gameClub.show()
   }
 }
 

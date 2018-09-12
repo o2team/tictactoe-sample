@@ -150,6 +150,9 @@ class Battle extends Phaser.State {
 
     // 处理游戏结束消息
     go.server.once('game over', this.handleGameOver)
+    
+    // 游戏场景隐藏游戏圈按钮
+    go.gameClub.hide()
   }
 
   /**
@@ -164,6 +167,9 @@ class Battle extends Phaser.State {
     go.server.off('game over', this.handleGameOver)
     // 清空 go 中关于本次对局的状态
     go.battle = null
+
+    // 离开游戏场景显示游戏圈按钮
+    go.gameClub.show()
   }
 }
 

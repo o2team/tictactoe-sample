@@ -121,6 +121,18 @@ class Start extends Phaser.State {
       // 连接服务器
       go.server.initSocket()
     })
+
+    // 创建游戏圈按钮
+    go.gameClub = wx.createGameClubButton({
+      icon: 'green',
+      style: {
+        left: 10,
+        top: 76,
+        width: 40,
+        height: 40
+      }
+    })
+    go.gameClub.show()
   }
 
   shutdown() {
