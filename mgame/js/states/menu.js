@@ -69,6 +69,8 @@ class Menu extends Phaser.State {
     wx.onShow(this.handleOnShow)
     // 显示主菜单
     addMenu()
+    // 显示游戏圈
+    go.gameClub.show()
   }
 
   /**
@@ -157,6 +159,8 @@ class Menu extends Phaser.State {
     wx.offShow(this.handleOnShow)
     // 停止监听 game start
     go.server.off('game start', this.handleGameStart)
+    // 隐藏游戏圈
+    go.gameClub.hide()
   }
 }
 
