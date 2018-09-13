@@ -92,7 +92,7 @@ async function sendScore (player) {
   const score = await setUserStorage(player, {
     score: {
       wxgame: {
-        rank_total: player.scoreTotal,
+        score: player.scoreTotal,
         update_time: Math.floor(Date.now() / 1000)
       },
       win: player.scoreWin,
