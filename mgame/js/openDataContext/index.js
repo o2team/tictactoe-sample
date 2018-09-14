@@ -99,6 +99,41 @@ function drawRankList(data) {
   })
 }
 
+/**
+ * 处理微信 API 获得的原始数据，获得我们绘制排行榜所需的数据
+ */
+function processData(data) {
+  return data
+    // 有成绩且成绩数据格式正确
+    .map((player) => {
+      const score = player.KVDataList.find(({ key }) => key === 'score')
+      if (!score) return null
+
+      // 为避免 score.value 中出现无法解析的意外数据
+      try {
+        player.score = JSON.parse(score.value)
+      } catch (e) {
+        return null
+      }
+
+      return player
+    })
+    // 剔除无效数据
+    .filter(data => data !== null)
+    // 按胜场排序
+    .sort(
+      (one, another) => {
+        if (one.score.win > another.score.win) {
+          return -1
+        } else {
+          return 1
+        }
+      }
+    )
+    // 取前6名
+    .slice(0, 6)
+}
+
 // 监听主域中发来的消息
 wx.onMessage((data) => {
   switch (data) {
@@ -108,40 +143,11 @@ wx.onMessage((data) => {
         // key 为 score 的云数据
         keyList: ['score'],
         success: res => {
-          let data = res.data
-          // 解析、筛选、排序、裁剪，得到想要的数据，存入 parsedData
-          const parsedData = data
-            // 有成绩且成绩数据格式正确
-            .map((player) => {
-              const score = player.KVDataList.find(({ key }) => key === 'score')
-              if (!score) return null
-
-              // 为避免 score.value 中出现无法解析的意外数据
-              try {
-                player.score = JSON.parse(score.value)
-              } catch (e) {
-                return null
-              }
-
-              return player
-            })
-            // 剔除无效数据
-            .filter(data => data !== null)
-            // 按胜场排序
-            .sort(
-              (one, another) => {
-                if (one.score.win > another.score.win) {
-                  return -1
-                } else {
-                  return 1
-                }
-              }
-            )
-            // 取前6名
-            .slice(0, 6)
+          // 处理原始数据，获得绘制排行榜所需数据
+          let data = processData(res.data)
 
           // 传入数据，画排行榜
-          drawRankList(parsedData)
+          drawRankList(data)
         }
       })
     }
